@@ -29,7 +29,7 @@ def _common_degree(g_neighbors, common):
     N = common.shape[0]
     degrees = np.zeros(N, dtype=np.int)
 
-    degrees = [g_neighbors[node].shape[0] for node in common]
+    degrees[:] = [g_neighbors[node].shape[0] for node in common]
 
     return degrees
 
