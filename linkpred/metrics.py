@@ -20,7 +20,9 @@ def adamic_adar_score(g_neighbors, node1, node2):
     common_n = _common_neighbors(g_neighbors, node1, node2)
     degrees = _common_degree(g_neighbors, common_n)
 
-    inv_log = np.divide(1., np.log(degrees))
+    # otherwise gives too much weight to second friends without friends
+    inv_log = np.divide(1., np.log(degrees + 1e-2))
+    inv_log[inv_log < 0] = 0
 
     return np.sum(inv_log)
 
@@ -38,6 +40,6 @@ def res_allocation(g_neighbors, node1, node2):
     common_n = _common_neighbors(g_neighbors, node1, node2)
     degrees = _common_degree(g_neighbors, common_n)
 
-    score = np.sum(np.divide(1., degrees))
+    score = np.sum(np.divide(1., degrees + 1e-2))
 
     return score

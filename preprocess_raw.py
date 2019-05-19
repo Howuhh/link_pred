@@ -5,6 +5,7 @@ PATH = os.getcwd()
 
 # А нужно ли вообще тут так заморачиваться с путями?
 
+
 def clean_graph(load_name, save_name=None):
     load_path = os.path.join(PATH, load_name)
 
