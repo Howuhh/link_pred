@@ -11,6 +11,21 @@ import graph_tool.all as gtl
 
 
 def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    G: graph_tool.Graph
+    metrics: list
+    file: str
+    p=0.1: int
+    k_neighbors=2: int
+
+    Returns
+    -------
+
+    """
     train_graph, test_graph = graph_edges_split(G, p=p)
     nodes_info = graph_neighbors(train_graph, k_neighbors=k_neighbors)
 
@@ -25,6 +40,20 @@ def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
 
 
 def get_node_features(G, g_neighbors, metrics, node):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    G: graph_tool.Graph
+    g_neighbors: dict
+    metrics: list
+    node: int
+
+    Returns
+    -------
+
+    """
     candidates = gtl.shortest_distance(G, node, max_dist=2, return_reached=True)[1]
     result = np.zeros((candidates.shape[0], len(metrics) + 2))
 

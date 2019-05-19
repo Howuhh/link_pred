@@ -2,12 +2,38 @@ import numpy as np
 
 
 def common_neighbors_score(g_neighbors, node1, node2):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    g_neighbors: dict
+    node1: int
+    node2: int
+
+    Returns
+    -------
+
+    """
     common_n = _common_neighbors(g_neighbors, node1, node2)
 
     return common_n.shape[0]
 
 
 def _common_neighbors(g_neighbors, node1, node2):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    g_neighbors: dict
+    node1: int
+    node2: int
+
+    Returns
+    -------
+
+    """
     node1_n = g_neighbors[node1]
     node2_n = g_neighbors[node2]
 
@@ -17,6 +43,19 @@ def _common_neighbors(g_neighbors, node1, node2):
 
 
 def adamic_adar_score(g_neighbors, node1, node2):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    g_neighbors: dict
+    node1: int
+    node2: int
+
+    Returns
+    -------
+
+    """
     common_n = _common_neighbors(g_neighbors, node1, node2)
     degrees = _common_degree(g_neighbors, common_n)
 
@@ -28,6 +67,18 @@ def adamic_adar_score(g_neighbors, node1, node2):
 
 
 def _common_degree(g_neighbors, common):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    g_neighbors: dict
+    common: int
+
+    Returns
+    -------
+
+    """
     N = common.shape[0]
     degrees = np.zeros(N, dtype=np.int)
 
@@ -37,6 +88,19 @@ def _common_degree(g_neighbors, common):
 
 
 def res_allocation(g_neighbors, node1, node2):
+    """
+    Set docstring here.
+
+    Parameters
+    ----------
+    g_neighbors: dict
+    node1: int
+    node2: int
+
+    Returns
+    -------
+
+    """
     common_n = _common_neighbors(g_neighbors, node1, node2)
     degrees = _common_degree(g_neighbors, common_n)
 
