@@ -8,16 +8,22 @@ import graph_tool as gt
 
 def feature_vector(G, scores, delim=","):
     """
-    Set docstring here.
+    Converts node feature_vector from list of scores and add target label. 
+    A label is 1 if the edge between node pair exists and 0 otherwise.
 
     Parameters
     ----------
     G: graph_tool.Graph
+        Graph object from graph-tool module.
     scores: ndarray
+        Metric scores for patricular node pair.
     delim: str
+        Delimiter in joined string.
 
     Returns
     -------
+    feature_vector: str
+        A string representing node scores + target label.
 
     """
     target = 0.
@@ -32,16 +38,23 @@ def feature_vector(G, scores, delim=","):
 
 def compute_metrics(g_neighbors, metrics, node_pair):
     """
-    Set docstring here.
+    Computes all similarity scores for node pair.
 
     Parameters
     ----------
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors},
+        where value should be ndarray type.
     metrics: list
+        List with metrics funcitons.
+        For the right function format see docs in metrics.py
     node_pair: tuple
+        Pair of nodes, for which the metrics of similarity are calculated.
 
     Returns
     -------
+    scores: ndarray, shape (1, len(metrics))
+        All similarity scores for node pair.
 
     """
     node1, node2 = node_pair
@@ -55,15 +68,19 @@ def compute_metrics(g_neighbors, metrics, node_pair):
 
 def graph_neighbors(G, k_neighbors=2):
     """
-    Set docstring here.
+    Computes all neighbors for each node and represents it as a dictionary.
 
     Parameters
     ----------
     G: graph_tool.Graph
-    k_neighbors: int 
+        Graph object from graph-tool module.
+    k_neighbors=2: int
+        K-th order neighbors for each node. Only 1 or 2.
 
     Returns
     -------
+    nodes_neighbors: dict
+        dictionary with node id as key and ndarray of neighbors ids.
 
     """
     assert k_neighbors in (1, 2), "only 1 and 2 neighbors"
@@ -79,16 +96,21 @@ def graph_neighbors(G, k_neighbors=2):
 
 def neighbors(G, node, k_neighbors):
     """
-    Set docstring here.
+    Returns all node neighbors.
 
     Parameters
     ----------
     G: graph_tool.Graph
+        Graph object from graph-tool module.
     node: int
+        node id in graph
     k_neighbors: int
+        K-th order neighbors. Only 1 or 2.
 
     Returns
     -------
+    neighbors: ndarray
+        Node neighbors.
 
     """
     initn = list(G.get_out_neighbors(node))
@@ -108,16 +130,18 @@ def neighbors(G, node, k_neighbors):
 # well, this is also weird
 def graph_edges_split(G, p):
     """
-    Set docstring here.
+    Split graph edges for validation and training disjoint sets.
 
     Parameters
     ----------
     G: graph_tool.Graph
-    p: int, must be in range (0, 1]
-
+        Graph object from graph-tool module.
+    p: int, (0, 1]
+        Test proportion.
     Returns
     -------
-
+    train_graph, test_graph: graph_tool.Graph
+    
     """
     N = G.num_edges()
     K = np.int(N * p)

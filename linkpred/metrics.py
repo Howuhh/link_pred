@@ -3,16 +3,21 @@ import numpy as np
 
 def common_neighbors_score(g_neighbors, node1, node2):
     """
-    Set docstring here.
+    Similarity measure based on number of common neighbors between two nodes.
 
     Parameters
     ----------
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors},
     node1: int
+        Node id
     node2: int
+        Node id
 
     Returns
     -------
+    score: int
+        Nodes similarity score.
 
     """
     common_n = _common_neighbors(g_neighbors, node1, node2)
@@ -22,16 +27,21 @@ def common_neighbors_score(g_neighbors, node1, node2):
 
 def _common_neighbors(g_neighbors, node1, node2):
     """
-    Set docstring here.
+    Helper function. Computes common neighbors.
 
     Parameters
     ----------
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors},
     node1: int
+        Node id
     node2: int
+        Node id
 
     Returns
     -------
+    common: ndarray
+        Array of common neighbors ids for node1 and node2.
 
     """
     node1_n = g_neighbors[node1]
@@ -44,16 +54,23 @@ def _common_neighbors(g_neighbors, node1, node2):
 
 def adamic_adar_score(g_neighbors, node1, node2):
     """
-    Set docstring here.
+    Similarity measure. Defined as the sum of the inverse logarithmic
+    degree centrality of the neighbours shared by the two nodes.
+    Introduced in 2003 by Lada Adamic and Eytan Adar.
 
     Parameters
     ----------
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors},
     node1: int
+        Node id
     node2: int
+        Node id
 
     Returns
     -------
+    score: int
+        Nodes similarity score.
 
     """
     common_n = _common_neighbors(g_neighbors, node1, node2)
@@ -68,7 +85,7 @@ def adamic_adar_score(g_neighbors, node1, node2):
 
 def _common_degree(g_neighbors, common):
     """
-    Set docstring here.
+    Helper functoin. Computes degrees of common neighbors.
 
     Parameters
     ----------
@@ -77,6 +94,8 @@ def _common_degree(g_neighbors, common):
 
     Returns
     -------
+    degrees: ndarray
+        Array of node degrees.
 
     """
     N = common.shape[0]
@@ -89,16 +108,23 @@ def _common_degree(g_neighbors, common):
 
 def res_allocation(g_neighbors, node1, node2):
     """
-    Set docstring here.
+    Similarity measure based on resource allocation.
+    For a detailed explanation see Tao Zhou, 
+    Linyuan Lu ̈ and Yi-Cheng Zhang paper: https://arxiv.org/abs/0901.0553
 
     Parameters
     ----------
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors},
     node1: int
+        Node id
     node2: int
+        Node id
 
     Returns
     -------
+    score: int
+        Nodes similarity score.
 
     """
     common_n = _common_neighbors(g_neighbors, node1, node2)

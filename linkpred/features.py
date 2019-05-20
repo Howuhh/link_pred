@@ -12,18 +12,27 @@ import graph_tool.all as gtl
 
 def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
     """
-    Set docstring here.
+    Extract all features/metrics from a graph and writes csv file. 
+    For each node similarity metrics are computed only for candidates on distance 2(3) from root node.
+    For each node only top 40 most similar nodes are left. 
+    File format: (from_node, to_node, metrics, label)
 
     Parameters
     ----------
     G: graph_tool.Graph
+         Graph object from graph-tool module. See https://graph-tool.skewed.de/.
     metrics: list
+        List with node similarity funcitons.
     file: str
-    p=0.1: int
+        Path & Name for final csv with features.
+    p=0.1: int, (0, 1]
+        Propotion of deleted edges for prediction.
     k_neighbors=2: int
+        K-th order neighbors for each node. Only 1 or 2.
 
     Returns
     -------
+    None, writes data to a file.
 
     """
     train_graph, test_graph = graph_edges_split(G, p=p)
@@ -41,17 +50,24 @@ def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
 
 def get_node_features(G, g_neighbors, metrics, node):
     """
-    Set docstring here.
+    Computes similatiry for all node pairs (root_node, node_i) within distance 2(or 3) from root node.
+    Only top 40 (by row sum) pairs are left.
 
     Parameters
     ----------
     G: graph_tool.Graph
+        Graph object from graph-tool module. See https://graph-tool.skewed.de/.
     g_neighbors: dict
+        Dictionary in format {node_id: array_of_neighbors}
     metrics: list
+        List with node similarity funcitons.
     node: int
+        Node id for which features the metrics are calculated. 
 
     Returns
     -------
+    top_scores: ndarray, shape (40, len(metrics) + 2)
+        Row format: [from_node, to_node, *metrics]
 
     """
     candidates = gtl.shortest_distance(G, node, max_dist=2, return_reached=True)[1]
