@@ -12,7 +12,7 @@ import graph_tool.all as gtl
 
 def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
     """
-    Extract all features/metrics from a graph and writes csv file. 
+    Extract all features/metrics from a graph and writes to the CSV file
     For each node similarity metrics are computed only for candidates on distance 2(3) from root node.
     For each node only top 40 most similar nodes are left. 
     File format: (from_node, to_node, metrics, label)
@@ -40,7 +40,7 @@ def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
 
     with open(file, "w") as df:
         for i, node in tqdm(enumerate(train_graph.get_vertices())):
-            scores = get_node_features(train_graph, nodes_info, metrics, node)
+            scores = _get_node_features(train_graph, nodes_info, metrics, node)
 
             for row in scores:
                 row_str = feature_vector(test_graph, row)
@@ -48,8 +48,9 @@ def extract_features(G, metrics, file, p=0.1, k_neighbors=2):
     print("DONE")
 
 
-def get_node_features(G, g_neighbors, metrics, node):
+def _get_node_features(G, g_neighbors, metrics, node):
     """
+    Helper funcion.
     Computes similatiry for all node pairs (root_node, node_i) within distance 2(or 3) from root node.
     Only top 40 (by row sum) pairs are left.
 
@@ -70,6 +71,7 @@ def get_node_features(G, g_neighbors, metrics, node):
         Row format: [from_node, to_node, *metrics]
 
     """
+    # get all nodes within distance 2 from root node
     candidates = gtl.shortest_distance(G, node, max_dist=2, return_reached=True)[1]
     result = np.zeros((candidates.shape[0], len(metrics) + 2))
 

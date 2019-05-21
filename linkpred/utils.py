@@ -127,7 +127,8 @@ def neighbors(G, node, k_neighbors):
     return true_neighborhood
 
 
-# well, this is also weird
+# well, this is also weird, 
+# but faster than by hands from edgelsit
 def graph_edges_split(G, p):
     """
     Split graph edges for validation and training disjoint sets.

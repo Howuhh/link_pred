@@ -5,9 +5,11 @@ from linkpred.metrics import common_neighbors_score, adamic_adar_score
 from linkpred.metrics import res_allocation
 from linkpred.features import extract_features
 
+# problems with module installed via homebrew
 sys.path.append("/usr/local/lib/python3.7/site-packages")
 import graph_tool as gt
 
+# similarity functions to calculate
 METRICS = [
     common_neighbors_score,
     adamic_adar_score,
@@ -19,4 +21,5 @@ if __name__ == "__main__":
     gt_fc = gt.Graph()
     gt_fc.add_edge_list(edge_list)
 
+    # extract and save features
     extract_features(gt_fc, METRICS, "data/fc_features_first.csv", k_neighbors=1)
